@@ -470,34 +470,42 @@
 
     </section><!-- /Portfolio Section -->
 
-
     <script>
-    document.querySelector('form[data-netlify="true"]').addEventListener('submit', function (event) {
-  event.preventDefault(); // Prevent page reload
-
-  const form = this;
-  const formData = new FormData(form);
-
-  fetch('/', {
-    method: 'POST',
-    body: formData,
-  })
-    .then(response => {
-      if (response.ok) {
-        document.querySelector('.success-message').style.display = 'block'; // Show success message
-        form.reset(); // Clear the form fields
-      } else {
-        alert('There was an error submitting your message. Please try again.');
-      }
-    })
-    .catch(error => {
-      alert('There was an error submitting your message. Please try again.');
-    });
-});
-
+      document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('form[name="contact-form"]');
+  
+        if (form) {
+          form.addEventListener('submit', async function (event) {
+            event.preventDefault();
+  
+            const successMessage = document.querySelector('.success-message');
+            const errorMessage = document.querySelector('.error-message');
+  
+            successMessage.style.display = 'none';
+            errorMessage.style.display = 'none';
+  
+            const formData = new FormData(this);
+  
+            try {
+              const response = await fetch('/', {
+                method: 'POST',
+                body: formData,
+              });
+  
+              if (response.ok) {
+                successMessage.style.display = 'block';
+                this.reset();
+              } else {
+                throw new Error('Submission failed');
+              }
+            } catch (error) {
+              errorMessage.style.display = 'block';
+            }
+          });
+        }
+      });
     </script>
     
-
 
 
     <!-- Contact Section -->
