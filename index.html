@@ -473,40 +473,41 @@
 
     <script>
       document.querySelector('.php-email-form').addEventListener('submit', async function (event) {
-        event.preventDefault(); // Prevent page reload
-        
-        // Display the loading indicator
-        const loading = document.querySelector('.loading');
-        const error = document.querySelector('.error-message');
-        const success = document.querySelector('.sent-message');
-        
-        loading.style.display = 'block';
-        error.style.display = 'none';
-        success.style.display = 'none';
-    
-        const formData = new FormData(this);
-    
-        try {
-          // Send form data to Netlify
-          const response = await fetch('/', {
-            method: 'POST',
-            body: formData,
-          });
-    
-          if (response.ok) {
-            // Show success message
-            loading.style.display = 'none';
-            success.style.display = 'block';
-            this.reset(); // Optional: Reset the form fields
-          } else {
-            throw new Error('Form submission failed');
-          }
-        } catch (error) {
-          // Show error message
-          loading.style.display = 'none';
-          error.style.display = 'block';
-        }
-      });
+  event.preventDefault(); // Prevent page reload
+
+  const loading = document.querySelector('.loading');
+  const error = document.querySelector('.error-message');
+  const success = document.querySelector('.sent-message');
+
+  // Show loading indicator
+  loading.style.display = 'block';
+  error.style.display = 'none';
+  success.style.display = 'none';
+
+  const formData = new FormData(this);
+
+  try {
+    const response = await fetch('/', {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (response.ok) {
+      // Hide loading, show success
+      loading.style.display = 'none';
+      success.style.display = 'block';
+      this.reset();
+    } else {
+      throw new Error('Submission failed');
+    }
+  } catch (err) {
+    // Hide loading, show error
+    loading.style.display = 'none';
+    error.style.display = 'block';
+    console.error('Form submission error:', err);
+  }
+});
+
     </script>
     
 
@@ -569,37 +570,38 @@
           <div class="col-lg-7">
             <form method="POST" action="/" data-netlify="true" name="contact-form" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
               <input type="hidden" name="form-name" value="contact-form">
-          
+              
               <div class="row gy-4">
-
                 <div class="col-md-6">
                   <label for="name-field" class="pb-2 text-start d-block">Your Name</label>
-                  <input type="text" name="name" id="name-field" class="form-control text-start" required="">
-              </div>
-              
-              <div class="col-md-6">
+                  <input type="text" name="name" id="name-field" class="form-control text-start" required>
+                </div>
+            
+                <div class="col-md-6">
                   <label for="email-field" class="pb-2 text-start d-block">Your Email</label>
-                  <input type="email" class="form-control text-start" name="email" id="email-field" required="">
-              </div>
-              
-              <div class="col-md-12">
+                  <input type="email" class="form-control text-start" name="email" id="email-field" required>
+                </div>
+            
+                <div class="col-md-12">
                   <label for="subject-field" class="pb-2 text-start d-block">Subject</label>
-                  <input type="text" class="form-control text-start" name="subject" id="subject-field" required="">
-              </div>
-              
-              <div class="col-md-12">
+                  <input type="text" class="form-control text-start" name="subject" id="subject-field" required>
+                </div>
+            
+                <div class="col-md-12">
                   <label for="message-field" class="pb-2 text-start d-block">Message</label>
-                  <textarea class="form-control text-start" name="message" rows="10" id="message-field" required=""></textarea>
-              </div>
+                  <textarea class="form-control text-start" name="message" rows="10" id="message-field" required></textarea>
+                </div>
+            
                 <div class="col-md-12 text-center">
-                  <div class="loading">Loading</div>
-                  <div class="error-message"></div>
+                  <div class="loading" style="display: none;">Loading</div>
+                  <div class="error-message" style="display: none; color: red;">Error submitting the form</div>
                   <div class="sent-message" style="display: none; color: green;">Your message has been sent. Thank you!</div>
+            
                   <button type="submit">Send Message</button>
                 </div>
-
               </div>
             </form>
+            
           </div><!-- End Contact Form -->
 
         </div>
