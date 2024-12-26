@@ -138,6 +138,22 @@ h6 {
   }
 }
 
+
+.loading {
+  font-size: 16px;
+  color: blue;
+}
+
+.error-message {
+  font-size: 16px;
+  color: red;
+}
+
+.sent-message {
+  font-size: 16px;
+  color: green;
+}
+
 /*--------------------------------------------------------------
 # Global Header
 --------------------------------------------------------------*/
